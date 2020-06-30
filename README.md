@@ -1,4 +1,5 @@
 # Title
+ft philosopher
 
 ### Table Of Contents
 * [Introduction](#introduction)
@@ -17,7 +18,7 @@
 ## Introduction  
 
 #### About This Project
-This project is about [Dining Philosopher Problem]. There are n number of philosophers sitting on the table with same number of forks with spagetti on the table center. We need to make sure to pholosophers not starving. 
+This project is about [Dining Philosopher Problem]. There are n number of philosophers sitting on the table with same number of forks which each fork is put between two philosophers and spagetti is on the table center. We need to make sure to philosophers not starving. 
 
 #### About Me
 Developer, Designer Be creative!! Currently Studying [@42SiliconValley][42]
@@ -31,8 +32,9 @@ Use ptrhead to handle this problem.
 ## Instructions
 Make sure you have the needed [dependencies](#dependencies) before proceeding.
 For instructions and/or greater detail refer to the project [pdf][pdf]
-## Mandatory part
 
+## Mandatory part
+Three Steps, [1] Use mutex to handle dining philosopher problem and philosopher shoud be thread. [2] Use semaphore instead of mutex, and now forks are placed on table center. [3] Same situation as [2], but each philosopher should be a process and the main process should not be a philosopher.
 ## Bonus part
 There is no bonus part for this project.
 
