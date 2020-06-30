@@ -63,11 +63,11 @@ This is not kept up to date and I cannot guarantee that it will work on your fut
 ## Keep in Touch
 
 You can find me on:
-[Github][kosehy]
+[Github][movingfinger]
 Enjoy!
 
 [42]: http://42.us.org "42 USA"
 [pdf]: pdf
 
-[kosehy]: https://github.com/kosehy
+[movingfinger]: https://github.com/movingfinger
 [Dining Philosopher Pproblem]: https://en.wikipedia.org/wiki/Dining_philosophers_problem
