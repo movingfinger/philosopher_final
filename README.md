@@ -17,7 +17,7 @@
 ## Introduction  
 
 #### About This Project
-This project is about [Dining Philosopher Pproblem]
+This project is about [Dining Philosopher Problem]. There are n number of philosophers sitting on the table with same number of forks with spagetti on the table center. We need to make sure to pholosophers not starving. 
 
 #### About Me
 Developer, Designer Be creative!! Currently Studying [@42SiliconValley][42]
@@ -25,7 +25,8 @@ Developer, Designer Be creative!! Currently Studying [@42SiliconValley][42]
 #### About 42  
 [42][42] is a free, non profit, project-based, peer-to-peer learning coding school. It originated in France and now has over 20 campuses all over the world. More information can be found [here][42] 
 
-## Objective  
+## Objective 
+Use ptrhead to handle this problem.
 
 ## Instructions
 Make sure you have the needed [dependencies](#dependencies) before proceeding.
@@ -33,6 +34,7 @@ For instructions and/or greater detail refer to the project [pdf][pdf]
 ## Mandatory part
 
 ## Bonus part
+There is no bonus part for this project.
 
 ## Dependencies  
 * A C language compiler most common would be GCC or Clang.
@@ -70,4 +72,4 @@ Enjoy!
 [pdf]: pdf
 
 [movingfinger]: https://github.com/movingfinger
-[Dining Philosopher Pproblem]: https://en.wikipedia.org/wiki/Dining_philosophers_problem
+[Dining Philosopher Problem]: https://en.wikipedia.org/wiki/Dining_philosophers_problem
