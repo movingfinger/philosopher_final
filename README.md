@@ -71,7 +71,7 @@ You can find me on:
 Enjoy!
 
 [42]: http://42.us.org "42 USA"
-[pdf]: pdf
+[pdf]: philosopher.en.subject.pdf
 
 [movingfinger]: https://github.com/movingfinger
 [Dining Philosopher Problem]: https://en.wikipedia.org/wiki/Dining_philosophers_problem
