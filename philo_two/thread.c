@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/06/29 20:52:41 by sako             ###   ########.fr       */
+/*   Updated: 2020/06/30 12:28:22 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	free_status(t_status *status)
 {
 	char *c_sem;
 
+	c_sem = NULL;
 	sem_unlink("SEM_FORK");
 	sem_unlink("SEM_MESSAGE");
 	sem_unlink("SEM_DEAD");

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:59:28 by sako              #+#    #+#             */
-/*   Updated: 2020/06/29 20:53:33 by sako             ###   ########.fr       */
+/*   Updated: 2020/06/30 12:27:11 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ char			*ft_ltoa_base(long long nbr, int base)
 	return (str);
 }
 
-<<<<<<< HEAD
 long long		timer(void)
 {
 	struct timeval time;
@@ -119,33 +118,3 @@ long long		timer(void)
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * (long long)1000 + time.tv_usec / 1000);
 }
-=======
-/*
-char			*ft_ltoa_base(long long value, int base)
-{
-	int			len;
-	long long	nbr;
-	char		*str;
-	char		*s_base;
-
-	s_base = "0123456789abcdef";
-	len = (int)ft_nbrlen(value, base);
-	nbr = value;
-	if (nbr < 0)
-	{
-		if (base == 10)
-			len += 1;
-		nbr *= -1;
-	}
-	str = malloc(len);
-	while (len > 0)
-	{
-		str[--len] = s_base[nbr % base];
-		nbr /= base;
-	}
-	if (value < 0 && base == 10)
-		str[0] = '-';
-	return (str);
-}
-*/
->>>>>>> 8b0f2ab3287f884a1b03e5ae11ddd275de945a73
