@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/06/25 22:42:47 by sako             ###   ########.fr       */
+/*   Updated: 2020/06/30 13:07:58 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void init_philo(t_status *status)
 
 	if (!(status->philo =
 		(t_philosophers *)malloc(sizeof(t_philosophers) * status->num_philo)))
-		{
-			free_status(status);
 			ft_print_error("Failed to assign philosopher memory!");
-		}
 	for (i = 0; i < status->num_philo; i++)
 	{
 		status->philo[i].id = i;
@@ -72,7 +69,6 @@ void init_philo(t_status *status)
 void set_param(int ac, char **av, t_status *status)
 {
 	status->num_philo = ft_atol(av[1]);
-	status->start_time = timer();
 	status->time_to_die = ft_atol(av[2]);
 	status->time_to_eat = ft_atol(av[3]);
 	status->time_to_sleep = ft_atol(av[4]);

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/06/29 18:59:17 by sako             ###   ########.fr       */
+/*   Updated: 2020/06/30 13:09:41 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,18 @@ void	*check_philosopher(void *temp_philo)
 	philo = (t_philosophers *)temp_philo;
 	while (1)
 	{
-		//time = timer();
-		time = timer() - philo->status->start_time;
+		time = timer();
+		//time = timer() - philo->status->start_time;
 		pthread_mutex_lock(&philo->m_mutex);
 		if (!philo->is_eating && time > philo->check_time)
 		{
-			printf("%lld - %lld - %lld\n", time, philo->check_time, philo->status->time_to_die);
 			print_status(philo, ST_DIE);
 			pthread_mutex_unlock(&philo->m_mutex);
 			pthread_mutex_unlock(&philo->status->m_dead);
 			return ((void *)0);
 		}
 		pthread_mutex_unlock(&philo->m_mutex);
-		//usleep(1000);
+		usleep(1000);
 	}
 }
 
@@ -57,7 +56,8 @@ void	*philosopher (void *temp_philo)
 	pthread_t		t_id;
 
 	philo = (t_philosophers *)temp_philo;
-	philo->eat_time = timer() - philo->status->start_time;
+	//philo->eat_time = timer() - philo->status->start_time;
+	philo->eat_time = timer();
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
 	if (pthread_create(&t_id, NULL, check_philosopher, temp_philo) != 0)
 		ft_print_error("Failed to create check philosopher thread!");
@@ -91,7 +91,7 @@ void	do_philosopher(t_status *status)
 		if (pthread_create(&t_id, NULL, &philosopher, philo) != 0)
 			ft_print_error("Failed to make philosopher thread!");
 		pthread_detach(t_id);
-		//usleep(100);
+		usleep(100);
 	}
 	pthread_mutex_lock(&status->m_dead);
 	pthread_mutex_unlock(&status->m_dead);
