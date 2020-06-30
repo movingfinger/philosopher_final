@@ -1,5 +1,4 @@
-# Title
-ft philosopher
+# ft philosopher
 
 ### Table Of Contents
 * [Introduction](#introduction)
