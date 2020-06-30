@@ -17,7 +17,7 @@
 ## Introduction  
 
 #### About This Project
-This project is about dining philosopher problem[dining_philosopher]
+This project is about [Dining Philosopher Pproblem]
 
 #### About Me
 Developer, Designer Be creative!! Currently Studying [@42SiliconValley][42]
@@ -70,4 +70,4 @@ Enjoy!
 [pdf]: pdf
 
 [kosehy]: https://github.com/kosehy
-[dining_philosopher]: https://en.wikipedia.org/wiki/Dining_philosophers_problem
+[Dining Philosopher Pproblem]: https://en.wikipedia.org/wiki/Dining_philosophers_problem
