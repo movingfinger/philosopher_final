@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:59:28 by sako              #+#    #+#             */
-/*   Updated: 2020/07/02 13:20:52 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/02 17:57:06 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,22 @@ char			*ft_ltoa_base(long long nbr, int base)
 	return (str);
 }
 
-//long long		timer(void)
-//{
-//	struct timeval time;
-
-//	gettimeofday(&time, NULL);
-//	return (time.tv_sec * (long long)1000 + time.tv_usec / 1000);
-//}
-
-long long int	timer(void)
+long long		timer(void)
 {
-	struct timeval	now;
-	gettimeofday(&now, NULL);
-	return (((now.tv_sec * 1000000 + now.tv_usec)
-		- (t_time.tv_sec * 1000000 + t_time.tv_usec)) / 1000);
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * (long long)1000 + time.tv_usec / 1000);
+	//return (time.tv_sec * (long long)1000000 + time.tv_usec);
 }
+
+//long long int	timer(void)
+//{
+//	struct timeval	now;
+//	gettimeofday(&now, NULL);
+//	return (((now.tv_sec * 1000000 + now.tv_usec)
+//		- (t_time.tv_sec * 1000000 + t_time.tv_usec)) / 1000);
+//}
 
 void			ft_usleep(long long us)
 {

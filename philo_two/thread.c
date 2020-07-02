@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/02 13:21:04 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/02 19:28:12 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,17 @@ static void	*philosopher (void *t_philo)
 
 	philo = (t_philosophers *)t_philo;
 	philo->eat_time = timer();
-	//philo->eat_time = timer() - philo->status->start_time;
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
 	if (pthread_create(&t_id, NULL, check_philosopher, t_philo) != 0)
 		ft_print_error("Failed to create check philosopher thread!");
 	pthread_detach(t_id);
 	while (1)
 	{
-		//get_token(philo);
 		grab_fork(philo);
 		eat(philo);
 		down_forks(philo);
 		if (print_status(philo, ST_THINK))
 			return ((void *)0);
-		//return_token(philo);
 	}
 	return ((void *)0);
 }
@@ -99,7 +96,6 @@ void	do_philosopher(t_status *status)
 		if (pthread_create(&t_id, NULL, &philosopher, philo) != 0)
 			ft_print_error("Failed to make philosopher thread!");
 		pthread_detach(t_id);
-		//usleep(100);
 	}
 	sem_wait(status->sem_dead);
 	free_status(status);
