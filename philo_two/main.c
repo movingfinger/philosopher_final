@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:57 by sako              #+#    #+#             */
-/*   Updated: 2020/06/29 20:52:02 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/02 13:21:24 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int main(int ac, char **av)
 {
 	t_status status;
 	
+	gettimeofday(&t_time, NULL);
 	set_param(ac, av, &status);
 	do_philosopher(&status);
 	return (0);

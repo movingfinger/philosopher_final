@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/06/30 12:43:26 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/02 13:20:29 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,13 @@ void error_check(char **av)
 
 void init_semaphore(t_status *status)
 {
-	//if (!(status->sem_fork = ft_sem_open("SEM_FORK", status->num_philo)))
-	if ((status->sem_fork = ft_sem_open("SEM_FORK", status->num_philo)) < 0)
+	if (!(status->sem_fork = ft_sem_open("SEM_FORK", status->num_philo)))
 		ft_print_error("Fail to make semaphore for forks");
-	//if (!(status->sem_message = ft_sem_open("SEM_MESSAGE", 1)))
-	if ((status->sem_message = ft_sem_open("SEM_MESSAGE", 1)) < 0)
+	if (!(status->sem_message = ft_sem_open("SEM_MESSAGE", 1)))
 		ft_print_error("Fail to make semaphore for print");
-	//if (!(status->sem_dead = ft_sem_open("SEM_DEAD", 0)))
-	if ((status->sem_dead = ft_sem_open("SEM_DEAD", 0)) < 0)
+	if (!(status->sem_dead = ft_sem_open("SEM_DEAD", 0)))
 		ft_print_error("Fail to make semaphore for dead count");
-	//if (!(status->num_can_eat_lock = ft_sem_open("SEM_DEAD", 1)))
-	if ((status->num_can_eat_lock = ft_sem_open("SEM_DEAD", 1)) < 0)
+	if (!(status->num_can_eat_lock = ft_sem_open("SEM_DEAD", 1)))
 		ft_print_error("Fail to make semaphore for num can eat count");
 }
 
@@ -58,12 +54,10 @@ int init_philo(t_status *status)
 		status->philo[i].eat_count = 0;
 		status->philo[i].status = status;
 		c_sem = make_semaphore("SEM_PHILO", i);
-		//if (!(status->philo[i].sem_mutex = ft_sem_open(c_sem, 1)))
-		if ((status->philo[i].sem_mutex = ft_sem_open(c_sem, 1)) < 0)
+		if (!(status->philo[i].sem_mutex = ft_sem_open(c_sem, 1)))
 			ft_print_error("Failed to generate philo semaphore!");
 		c_sem = make_semaphore("SEM_FOOD", i);
-		//if (!(status->philo[i].sem_eat = ft_sem_open(c_sem, 0)))
-		if ((status->philo[i].sem_eat = ft_sem_open(c_sem, 0)) < 0)
+		if (!(status->philo[i].sem_eat = ft_sem_open(c_sem, 0)))
 			ft_print_error("Failed to generate food limit semaphore!");
 	}
 	if (c_sem)

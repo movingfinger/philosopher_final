@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/06/27 22:58:15 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/02 13:21:41 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define ST_DONE	5
 
 struct s_status;
+struct timeval t_time;
 
 typedef struct		s_philosophers
 {
@@ -107,5 +108,6 @@ unsigned int		ft_nbrlen(long long num, int base);
 char				*ft_strnew(size_t size);
 char				*ft_ltoa_base(long long nbr, int base);
 long long			timer(void);
+void				ft_usleep(long long us);
 
 #endif

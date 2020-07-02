@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/06/30 13:10:36 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/02 13:21:04 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	do_philosopher(t_status *status)
 		if (pthread_create(&t_id, NULL, &philosopher, philo) != 0)
 			ft_print_error("Failed to make philosopher thread!");
 		pthread_detach(t_id);
-		usleep(100);
+		//usleep(100);
 	}
 	sem_wait(status->sem_dead);
 	free_status(status);
