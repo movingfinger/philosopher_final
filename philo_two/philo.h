@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/09 19:33:15 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/09 21:19:35 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <assert.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <time.h>
 # include <fcntl.h>
 
 # define ERR_NEG	"Negative numbers are not allowed! "\
@@ -62,7 +63,6 @@ typedef struct		s_philosophers
 typedef struct		s_status
 {
 	int				num_philo;
-	int				num_can_eat;
 	long long		must_eat;
 	long long		start_time;
 	long long		time_to_die;
@@ -100,5 +100,7 @@ unsigned int		ft_nbrlen(long long num, int base);
 char				*ft_strnew(size_t size);
 char				*ft_ltoa_base(long long nbr, int base);
 long long			timer(void);
+long long			ms_timer(void);
+void				ft_usleep(int time);
 
 #endif

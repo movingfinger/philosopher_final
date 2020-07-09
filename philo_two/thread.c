@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/09 19:52:21 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/09 21:06:33 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static void	*check_philosopher(void *t_philo)
 	{
 		if (sem_wait(philo->sem_mutex) != 0)
 			return ((void*)0);
-		time = timer();
+		//time = timer();
+		time = ms_timer();
 		if (!philo->is_eating && time > philo->check_time)
 		{
-			printf("%lld - %lld\n", timer(), philo->check_time);
 			if (print_status(philo, ST_DIE))
 				return ((void *)0);
 			if (sem_post(philo->sem_mutex))
@@ -62,7 +62,8 @@ static void	*philosopher (void *t_philo)
 	pthread_t		t_id;
 
 	philo = (t_philosophers *)t_philo;
-	philo->eat_time = timer();
+	//philo->eat_time = timer();
+	philo->eat_time = ms_timer();
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
 	if (pthread_create(&t_id, NULL, check_philosopher, t_philo) != 0)
 		ft_print_error("Failed to create check philosopher thread!");
@@ -84,7 +85,8 @@ void	do_philosopher(t_status *status)
 	pthread_t	t_id;
 	void		*philo;
 
-	status->start_time = timer();
+	//status->start_time = timer();
+	status->start_time = ms_timer();
 	if (status->must_eat > 0)
 	{
 		if (pthread_create(&t_id, NULL, &check_count, (void *)status) != 0)
