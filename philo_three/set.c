@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/06/30 12:11:02 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/08 20:34:03 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,10 @@ int init_philo(t_philosophers *philo)
 		philo[i].lfork = i;
 		philo[i].rfork = (i + 1) % num_philo;
 		c_sem = make_semaphore("SEM_PHILO", i);
-		//if (!(philo[i].sem = ft_sem_open(c_sem, 1)))
-		if ((philo[i].sem = ft_sem_open(c_sem, 1)) < 0)
+		if (!(philo[i].sem = ft_sem_open(c_sem, 1)))
 			ft_print_error("Failed to generate philo semaphore!");
 		c_sem = make_semaphore("SEM_FOOD", i);
-		//if (!(philo[i].food_count = ft_sem_open(c_sem, 0)))
-		if ((philo[i].food_count = ft_sem_open(c_sem, 0)) < 0)
+		if (!(philo[i].food_count = ft_sem_open(c_sem, 0)))
 			ft_print_error("Failed to generate food limit semaphore!");
 		i++;
 		free(c_sem);
@@ -98,17 +96,13 @@ int init_semaphore(void)
 	sem_unlink("SEM_PRINT");
 	sem_unlink("SEM_DEAD");
 	sem_unlink("SEM_DEAD_REPORT");
-	//if (!(sem_fork = ft_sem_open("SEM_FORK", num_philo)))
-	if ((sem_fork = ft_sem_open("SEM_FORK", num_philo)) < 0)
+	if (!(sem_fork = ft_sem_open("SEM_FORK", num_philo)))
 		ft_print_error("Fail to make semaphore for forks");
-	//if (!(sem_print = ft_sem_open("SEM_PRINT", 1)))
-	if ((sem_print = ft_sem_open("SEM_PRINT", 1)) < 0)
+	if (!(sem_print = ft_sem_open("SEM_PRINT", 1)))
 		ft_print_error("Fail to make semaphore for print");
-	//if (!(sem_dead = ft_sem_open("SEM_DEAD", 0)))
-	if ((sem_dead = ft_sem_open("SEM_DEAD", 0)) < 0)
+	if (!(sem_dead = ft_sem_open("SEM_DEAD", 0)))
 		ft_print_error("Fail to make semaphore for dead count");
-	//if (!(sem_dead_report = ft_sem_open("SEM_DEAD_REPORT", 1)))
-	if ((sem_dead_report = ft_sem_open("SEM_DEAD_REPORT", 1)) < 0)
+	if (!(sem_dead_report = ft_sem_open("SEM_DEAD_REPORT", 1)))
 		ft_print_error("Fail to make semaphore for report dead");	
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/02 19:12:59 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/09 19:33:15 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@
 # define ST_DIE		4
 # define ST_DONE	5
 
-struct s_status;
-struct timeval t_time;
-
 typedef struct		s_philosophers
 {
 	int				id;
@@ -78,8 +75,6 @@ typedef struct		s_status
 }					t_status;
 
 void				*check_count(void *temp_status);
-//void				*check_philosopher(void *t_philo);
-//void				*philosopher (void *t_philo);
 void				do_philosopher(t_status *status);
 void				free_status(t_status *status);
 
@@ -105,6 +100,5 @@ unsigned int		ft_nbrlen(long long num, int base);
 char				*ft_strnew(size_t size);
 char				*ft_ltoa_base(long long nbr, int base);
 long long			timer(void);
-void				ft_usleep(long long us);
 
 #endif

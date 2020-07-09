@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:59:28 by sako              #+#    #+#             */
-/*   Updated: 2020/07/02 17:57:06 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/09 19:32:47 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,28 +117,4 @@ long long		timer(void)
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * (long long)1000 + time.tv_usec / 1000);
-	//return (time.tv_sec * (long long)1000000 + time.tv_usec);
-}
-
-//long long int	timer(void)
-//{
-//	struct timeval	now;
-//	gettimeofday(&now, NULL);
-//	return (((now.tv_sec * 1000000 + now.tv_usec)
-//		- (t_time.tv_sec * 1000000 + t_time.tv_usec)) / 1000);
-//}
-
-void			ft_usleep(long long us)
-{
-	struct timeval	start;
-	struct timeval	cur;
-
-	gettimeofday(&cur, NULL);
-	start = cur;
-	while (((cur.tv_sec - start.tv_sec) * 1000000)
-	+ ((cur.tv_usec - start.tv_usec)) < us)
-	{
-		gettimeofday(&cur, NULL);   
-		usleep(1);
-	}
 }
