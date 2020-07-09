@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 10:02:55 by sako              #+#    #+#             */
-/*   Updated: 2020/07/02 19:15:47 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/09 19:52:17 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	eat(t_philosophers *philo)
 	if (print_status(philo, ST_EAT))
 		ft_print_error("eat wrong!");
 	usleep(philo->status->time_to_eat * 1000);
-	//ft_usleep(philo->status->time_to_eat * 1000);
-	//nanosleep(&n_time, NULL);
 	philo->eat_count++;
 	philo->is_eating = 0;
 	sem_post(philo->sem_mutex);
@@ -46,6 +44,4 @@ void	down_forks (t_philosophers *philo)
 	sem_post(philo->status->sem_fork);
 	sem_post(philo->status->sem_fork);
 	usleep(philo->status->time_to_sleep * 1000);
-	//ft_usleep(philo->status->time_to_sleep * 1000);
-	//nanosleep(&n_time, NULL);
 }

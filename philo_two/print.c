@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 17:39:41 by sako              #+#    #+#             */
-/*   Updated: 2020/07/02 19:25:44 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/09 19:49:45 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	print_status(t_philosophers *philo, int stat)
 	if (finish == 0)
 	{
 		printf("%lld\t", timer() - philo->status->start_time);
-		//printf("%lld\t", (timer() - philo->status->start_time) / 1000);
 		if (stat != ST_DONE)
 			printf("%d", philo->id + 1);
 		if (stat >= ST_DIE)
@@ -54,8 +53,10 @@ int	print_status(t_philosophers *philo, int stat)
 				printf(" is thinking\n");
 		else if (stat == ST_FORK)
 				printf(" has taken a fork\n");
-		else if (stat == ST_DIE)
-				printf(" died\n");
+		else if (stat == ST_DIE){
+			printf("%lld - %lld\n", philo->check_time, timer());
+			printf(" died\n");
+		}
 		else if (stat == ST_DONE)
 				printf(" finished to eat given food\n");
 		ret = 0;
