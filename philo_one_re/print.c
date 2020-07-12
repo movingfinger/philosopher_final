@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 17:39:41 by sako              #+#    #+#             */
-/*   Updated: 2020/07/10 21:19:18 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/12 22:04:07 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,53 +30,40 @@ void	print_input(t_status *status)
 		printf("food limit per philosophers is %lld\n", status->must_eat);
 }
 
-int	print_status(t_philosophers *philo, int stat)
+void	print_status(t_philosophers *philo, int stat)
 {
-	static int	finish = 0;
-	int 		ret;
+	static int finish = 0;
 
-	if (sem_wait(philo->status->sem_message) != 0)
-		ft_print_error("Failed to wait message!");
-	ret = 1;
+	//pthread_mutex_lock(&philo->status->m_message);
+	sem_wait(&philo->status->m_message);
 	if (finish == 0)
 	{
-		printf("%lld\t", timer() - philo->status->start_time);
-		//printf("%lld\t", ms_timer() - philo->status->start_time);
-		if (stat != ST_DONE)
-			printf("%d", philo->id + 1);
-		if (stat >= ST_DIE)
+		printf("%lld ", timer() - philo->status->start_time);
+		printf("%d", philo->id + 1);
+		if (stat == ST_DIE || stat == ST_DONE)
 			finish = 1;
-		if (stat == ST_EAT)
+		switch (stat)
+		{
+			case ST_EAT:
 				printf(" is eating\n");
-		else if (stat == ST_SLEEP)
+				break;
+			case ST_SLEEP:
 				printf(" is sleeping\n");
-		else if (stat == ST_THINK)
+				break;
+			case ST_THINK:
 				printf(" is thinking\n");
-		else if (stat == ST_FORK)
+				break;
+			case ST_FORK:
 				printf(" has taken a fork\n");
-		else if (stat == ST_DIE)
-			printf(" died\n");
-		else if (stat == ST_DONE)
+				break;
+			case ST_DIE:
+				printf(" died\n");
+				break;
+			case ST_DONE:
 				printf(" finished to eat given food\n");
-		ret = 0;
+				break;
+		}
 	}
-	if (sem_post(philo->status->sem_message))
-		return (1);
-	return (ret);
-}
-
-char	*make_semaphore(const char *str, int i)
-{
-	char	*c_sem;
-	char	*pos;
-	int		len;
-
-	pos = ft_ltoa_base(i, 10);
-	len = ft_strlen(str) + ft_strlen(pos);
-	c_sem = ft_strnew(len);
-	ft_strlcat(c_sem, str, len);
-	ft_strlcat(c_sem, pos, len);
-	if (pos)
-		free(pos);
-	return (c_sem);
+	//pthread_mutex_unlock(&philo->status->m_message);
+	sem_post(&philo->status->m_message);
 }

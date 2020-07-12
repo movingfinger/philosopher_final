@@ -6,77 +6,74 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/10 21:19:48 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/12 22:07:34 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*check_count(void *temp_status)
+void	*check_food_count(void *temp_status)
 {
 	t_status *status;
 
 	status = (t_status *)temp_status;
 	for (int i = 0; i < status->must_eat; i++)
+	{
 		for (int j = 0; j < status->num_philo; j++)
-			if (sem_wait(status->philo[j].sem_eat))
-				return ((void *)0);
-	if (print_status(&status->philo[0], ST_DONE))
-		return ((void *)0);
-	if (sem_post(status->sem_dead))
-		return ((void *)0);
+			//pthread_mutex_lock(&status->philo[j].m_eat);
+			sem_wait(&status->philo[j].m_eat);
+	}
+	print_status(&status->philo[0], ST_DONE);
+	//pthread_mutex_unlock(&status->m_dead);
+	sem_post(&status->m_dead);
 	return ((void *)0);
 }
 
-static void	*check_philosopher(void *t_philo)
+void	*check_philosopher(void *temp_philo)
 {
 	t_philosophers *philo;
 	long long time;
 
-	philo = (t_philosophers *)t_philo;
+	philo = (t_philosophers *)temp_philo;
 	while (1)
 	{
-		if (sem_wait(philo->sem_mutex) != 0)
-			return ((void*)0);
 		time = timer();
-		//time = ms_timer();
+		//time = timer() - philo->status->start_time;
+		//pthread_mutex_lock(&philo->m_mutex);
+		sem_wait(&philo->m_mutex);
 		if (!philo->is_eating && time > philo->check_time)
 		{
-			if (print_status(philo, ST_DIE))
-				return ((void *)0);
-			if (sem_post(philo->sem_mutex))
-				return ((void*)0);
-			if (sem_post(philo->status->sem_dead))
-				return ((void*)0);
+			print_status(philo, ST_DIE);
+			//pthread_mutex_unlock(&philo->m_mutex);
+			//pthread_mutex_unlock(&philo->status->m_dead);
+			sem_post(&philo->m_mutex);
+			sem_post(&philo->status->m_dead);			
 			return ((void *)0);
 		}
-		if (sem_post(philo->sem_mutex))
-			return ((void *)0);
+		//pthread_mutex_unlock(&philo->m_mutex);
+		sem_post(&philo->m_mutex);
+		usleep(1000);
 	}
-	return ((void*)0);
 }
 
-static void	*philosopher (void *t_philo)
+void	*philosopher (void *temp_philo)
 {
 	t_philosophers	*philo;
 	pthread_t		t_id;
 
-	philo = (t_philosophers *)t_philo;
+	philo = (t_philosophers *)temp_philo;
+	//philo->eat_time = timer() - philo->status->start_time;
 	philo->eat_time = timer();
-	//philo->eat_time = ms_timer();
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
-	if (pthread_create(&t_id, NULL, check_philosopher, t_philo) != 0)
+	if (pthread_create(&t_id, NULL, check_philosopher, temp_philo) != 0)
 		ft_print_error("Failed to create check philosopher thread!");
 	pthread_detach(t_id);
 	while (1)
 	{
-		//get_token(philo);
 		grab_fork(philo);
 		eat(philo);
 		down_forks(philo);
-		if (print_status(philo, ST_THINK))
-			return ((void *)0);
-		//return_token(philo);
+		print_status(philo, ST_THINK);
 	}
 	return ((void *)0);
 }
@@ -88,10 +85,9 @@ void	do_philosopher(t_status *status)
 	void		*philo;
 
 	status->start_time = timer();
-	//status->start_time = ms_timer();
 	if (status->must_eat > 0)
 	{
-		if (pthread_create(&t_id, NULL, &check_count, (void *)status) != 0)
+		if (pthread_create(&t_id, NULL, &check_food_count, (void *)status) != 0)
 			ft_print_error("Failed to make food count thread!");
 		pthread_detach(t_id);
 	}
@@ -101,31 +97,37 @@ void	do_philosopher(t_status *status)
 		if (pthread_create(&t_id, NULL, &philosopher, philo) != 0)
 			ft_print_error("Failed to make philosopher thread!");
 		pthread_detach(t_id);
+		//usleep(100);
 	}
-	sem_wait(status->sem_dead);
+	//pthread_mutex_lock(&status->m_dead);
+	//pthread_mutex_unlock(&status->m_dead);
+	sem_wait(&status->m_dead);
+	sem_post(&status->m_dead);
 	free_status(status);
 }
 
 void	free_status(t_status *status)
 {
-	char *c_sem;
-
-	c_sem = NULL;
-	sem_unlink("SEM_FORK");
-	sem_unlink("SEM_MESSAGE");
-	sem_unlink("SEM_DEAD");
-	sem_unlink("SEM_NUM_CAN_EAT");
+	if (status->m_fork)
+	{
+		for (int i = 0; i < status->num_philo; i++)
+			//pthread_mutex_destroy(&status->m_fork[i]);
+			sem_destroy(&status->m_fork[i]);
+		free(status->m_fork);
+	}
 	if (status->philo)
 	{
 		for (int i = 0; i < status->num_philo; i++)
 		{
-			c_sem = make_semaphore("SEM_PHILO", i);
-			sem_unlink(c_sem);
-			c_sem = make_semaphore("SEM_FOOD", i);
-			sem_unlink(c_sem);
+			//pthread_mutex_destroy(&status->philo[i].m_mutex);
+			//pthread_mutex_destroy(&status->philo[i].m_eat);
+			sem_destroy(&status->philo[i].m_mutex);
+			sem_destroy(&status->philo[i].m_eat);
 		}
 		free(status->philo);
 	}
-	if (c_sem)
-		free(c_sem);
+	//pthread_mutex_destroy(&status->m_message);
+	//pthread_mutex_destroy(&status->m_dead);
+	sem_destroy(&status->m_message);
+	sem_destroy(&status->m_dead);
 }

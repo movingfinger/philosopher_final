@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/12 12:27:20 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/12 22:07:10 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,42 +28,51 @@ void error_check(char **av)
 	}
 }
 
-void init_semaphore(t_status *status)
+void init_mutex(t_status *status)
 {
-	if (!(status->sem_fork = ft_sem_open("SEM_FORK", status->num_philo)))
-		ft_print_error("Fail to make semaphore for forks");
-	if (!(status->sem_message = ft_sem_open("SEM_MESSAGE", 1)))
-		ft_print_error("Fail to make semaphore for print");
-	if (!(status->sem_dead = ft_sem_open("SEM_DEAD", 0)))
-		ft_print_error("Fail to make semaphore for dead count");
-	//if (!(status->sem_num_can_eat = ft_sem_open("SEM_NUM_CAN_EAT", 1)))
-	//	ft_print_error("Fail to make semaphore for num can eat count");
-	sem_init(status->sem_num_can_eat, 0, status->num_can_eat);
+	int i;
+
+	//pthread_mutex_init(&status->m_message, NULL);
+	//pthread_mutex_init(&status->m_dead, NULL);
+	//pthread_mutex_lock(&status->m_dead);
+	sem_init(&status->m_message, 0, 1);
+	sem_init(&status->m_dead, 0, 1);
+	sem_wait(&status->m_dead);
+	//if (!(status->m_fork =
+	//	(pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * status->num_philo)))
+	if (!(status->m_fork =
+		(sem_t *)malloc(sizeof(sem_t) * status->num_philo)))
+		{
+			free_status(status);
+			ft_print_error("Failed to initialized fork mutex!");
+		}
+	for (i = 0; i < status->num_philo; i++)
+		//pthread_mutex_init(&status->m_fork[i], NULL);
+		sem_init(&status->m_fork[i], 0, 1);
 }
 
-int init_philo(t_status *status)
+void init_philo(t_status *status)
 {
-	int		i;
-	char	*c_sem;
+	int	i;
 
+	if (!(status->philo =
+		(t_philosophers *)malloc(sizeof(t_philosophers) * status->num_philo)))
+			ft_print_error("Failed to assign philosopher memory!");
 	for (i = 0; i < status->num_philo; i++)
 	{
-		status->philo[i].is_eating = 0;
 		status->philo[i].id = i;
+		status->philo[i].eat_count = 0;
+		status->philo[i].is_eating = 0;
 		status->philo[i].l_fork = i;
 		status->philo[i].r_fork = (i + 1) % status->num_philo;
-		status->philo[i].eat_count = 0;
 		status->philo[i].status = status;
-		c_sem = make_semaphore("SEM_PHILO", i);
-		if (!(status->philo[i].sem_mutex = ft_sem_open(c_sem, 1)))
-			ft_print_error("Failed to generate philo semaphore!");
-		c_sem = make_semaphore("SEM_FOOD", i);
-		if (!(status->philo[i].sem_eat = ft_sem_open(c_sem, 1)))
-			ft_print_error("Failed to generate food limit semaphore!");
+		//pthread_mutex_init(&status->philo[i].m_mutex, NULL);
+		//pthread_mutex_init(&status->philo[i].m_eat, NULL);
+		//pthread_mutex_lock(&status->philo[i].m_eat);
+		sem_init(&status->philo[i].m_mutex, 0, 1);
+		sem_init(&status->philo[i].m_eat, 0, 1);
+		sem_wait(&status->philo[i].m_eat);
 	}
-	if (c_sem)
-		free(c_sem);
-	return (0);
 }
 
 void set_param(int ac, char **av, t_status *status)
@@ -72,26 +81,19 @@ void set_param(int ac, char **av, t_status *status)
 	status->time_to_die = ft_atol(av[2]);
 	status->time_to_eat = ft_atol(av[3]);
 	status->time_to_sleep = ft_atol(av[4]);
-	status->num_can_eat = status->num_philo - 1;
-	status->sem_fork = NULL;
+	status->m_fork = NULL;
 	status->philo = NULL;
 	if (ac > 6 || ac < 5)
+	{
+		free_status(status);
 		ft_print_error(ERR_ARG);
+	}
 	else if(ac == 5)
 		status->must_eat = 0;
 	else if (ac == 6)
 		status->must_eat = ft_atol(av[5]);
 	error_check(av);
 	print_input(status);
-	if (!(status->philo =
-		(t_philosophers *)malloc(sizeof(t_philosophers) * status->num_philo)))
-			ft_print_error("Failed to assign philosopher memory!");
 	init_philo(status);
-	init_semaphore(status);
-}
-
-sem_t	*ft_sem_open(const char *str, int num)
-{
-	sem_unlink(str);
-	return (sem_open(str, O_CREAT | O_EXCL, 0644, num));
+	init_mutex(status);
 }
