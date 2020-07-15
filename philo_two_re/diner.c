@@ -6,11 +6,21 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 10:02:55 by sako              #+#    #+#             */
-/*   Updated: 2020/07/14 23:13:51 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/15 12:41:33 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	get_token(t_philosophers *philo)
+{
+	sem_wait(philo->status->sem_num_can_eat);
+}
+
+void	return_token(t_philosophers *philo)
+{
+	sem_post(philo->status->sem_num_can_eat);
+}
 
 void	eat(t_philosophers *philo)
 {
@@ -21,6 +31,7 @@ void	eat(t_philosophers *philo)
 	print_status(philo, ST_EAT);
 	usleep(philo->status->time_to_eat * 1000);
 	philo->eat_count++;
+	philo->is_eating = 0;
 	sem_post(philo->m_mutex);
 	sem_post(philo->m_eat);
 }

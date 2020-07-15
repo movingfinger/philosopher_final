@@ -6,13 +6,13 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/14 23:12:27 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/15 00:23:53 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void error_check(char **av)
+void	error_check(char **av)
 {
 	if (ft_atol(av[1]) > 200 || av[1][0] == '-')
 		ft_print_error(ERR_NUMMAX);
@@ -28,13 +28,11 @@ void error_check(char **av)
 	}
 }
 
-void init_mutex(t_status *status)
+void	init_semaphore(t_status *status)
 {
 	int		i;
 	char	*c_sem;
 
-	//sem_init(&status->m_message, 0, 1);
-	//sem_init(&status->m_dead, 0, 1);
 	if (!(status->m_message = ft_sem_open("SEM_MESSAGE", 1)))
 		ft_print_error("Failed to generate message semaphore!");
 	if (!(status->m_dead = ft_sem_open("SEM_DEAD", 1)))
@@ -55,10 +53,10 @@ void init_mutex(t_status *status)
 		if (!(status->m_fork[i] = ft_sem_open(c_sem, 1)))
 			ft_print_error("Failed to generate dead semaphore!");	
 	}
-		//sem_init(&status->m_fork[i], 0, 1);
+	status->sem_num_can_eat = ft_sem_open("SEM_NUM_CAN_EAT", status->num_can_eat);
 }
 
-void init_philo(t_status *status)
+void	init_philo(t_status *status)
 {
 	int		i;
 	char	*c_sem;
@@ -74,8 +72,6 @@ void init_philo(t_status *status)
 		status->philo[i].l_fork = i;
 		status->philo[i].r_fork = (i + 1) % status->num_philo;
 		status->philo[i].status = status;
-		//sem_init(&status->philo[i].m_mutex, 0, 1);
-		//sem_init(&status->philo[i].m_eat, 0, 1);
 		c_sem = make_semaphore("SEM_PHILO", i);
 		if (!(status->philo[i].m_mutex = ft_sem_open(c_sem, 1)))
 			ft_print_error("Failed to generate philo semaphore!");
@@ -92,6 +88,7 @@ void set_param(int ac, char **av, t_status *status)
 	status->time_to_die = ft_atol(av[2]);
 	status->time_to_eat = ft_atol(av[3]);
 	status->time_to_sleep = ft_atol(av[4]);
+	status->num_can_eat = status->num_philo - 1;
 	status->m_fork = NULL;
 	status->philo = NULL;
 	if (ac > 6 || ac < 5)
@@ -106,7 +103,7 @@ void set_param(int ac, char **av, t_status *status)
 	error_check(av);
 	print_input(status);
 	init_philo(status);
-	init_mutex(status);
+	init_semaphore(status);
 }
 
 sem_t	*ft_sem_open(const char *str, int num)

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/14 23:13:31 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/15 20:51:07 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ void	*philosopher (void *temp_philo)
 	pthread_detach(t_id);
 	while (1)
 	{
+		//get_token(philo);
 		grab_fork(philo);
 		eat(philo);
 		down_forks(philo);
 		print_status(philo, ST_THINK);
+		//return_token(philo);
 	}
 	return ((void *)0);
 }
@@ -100,15 +102,14 @@ void	free_status(t_status *status)
 	char	*c_sem;
 	sem_unlink("SEM_MESSAGE");
 	sem_unlink("SEM_DEAD");
-	sem_destroy(status->m_message);
-	sem_destroy(status->m_dead);
+	sem_unlink("SEM_NUM_CAN_EAT");
 	if (status->m_fork)
 	{
 		for (int i = 0; i < status->num_philo; i++)
 		{
 			c_sem = make_semaphore("SEM_FORK", i);
 			sem_unlink(c_sem);
-			sem_destroy(status->m_fork[i]);
+			//free (status->m_fork[i]);
 		}
 		free(status->m_fork);
 	}
@@ -120,8 +121,6 @@ void	free_status(t_status *status)
 			sem_unlink(c_sem);
 			c_sem = make_semaphore("SEM_FOOD", i);
 			sem_unlink(c_sem);
-			sem_destroy(status->philo[i].m_mutex);
-			sem_destroy(status->philo[i].m_eat);
 		}
 		free(status->philo);
 	}

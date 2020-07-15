@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/10 21:19:48 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/15 00:22:04 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ static void	*philosopher (void *t_philo)
 	pthread_detach(t_id);
 	while (1)
 	{
-		//get_token(philo);
+		get_token(philo);
 		grab_fork(philo);
 		eat(philo);
 		down_forks(philo);
 		if (print_status(philo, ST_THINK))
 			return ((void *)0);
-		//return_token(philo);
+		return_token(philo);
 	}
 	return ((void *)0);
 }

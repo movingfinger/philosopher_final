@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/14 22:07:42 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/15 00:17:29 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct		s_status
 {
 	int				num_philo;
 	long long		must_eat;
+	long long		num_can_eat;
 	long long		start_time;
 	long long		time_to_die;
 	long long		time_to_eat;
@@ -84,6 +85,7 @@ typedef struct		s_status
 	//pthread_mutex_t	m_message;
 	//pthread_mutex_t	m_dead;
 	//pthread_mutex_t	*m_fork;
+	sem_t			*sem_num_can_eat;
 	sem_t			*m_message;
 	sem_t			*m_dead;
 	sem_t			**m_fork;
@@ -98,6 +100,8 @@ void				free_status(t_status *status);
 void				eat(t_philosophers *philo);
 void				grab_fork (t_philosophers *philo);
 void				down_forks (t_philosophers *philo);
+void				get_token(t_philosophers *philo);
+void				return_token(t_philosophers *philo);
 
 void				error_check(char **av);
 void				init_mutex(t_status *status);

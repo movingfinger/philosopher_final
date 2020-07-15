@@ -6,7 +6,7 @@
 #    By: sako <sako@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/17 21:58:49 by sako              #+#    #+#              #
-#    Updated: 2020/06/26 10:03:45 by sako             ###   ########.fr        #
+#    Updated: 2020/07/14 23:33:28 by sako             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RM			= rm -f
 CFLAGS		= -Wextra -Werror -Wall -I.
 LIBS		= -lpthread
 
-NAME		= philo_one
+NAME		= philo_two
 
 all:		$(NAME)
 
