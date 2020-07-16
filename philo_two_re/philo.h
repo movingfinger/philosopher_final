@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/15 00:17:29 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/16 19:09:01 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ typedef struct		s_philosophers
 	int				l_fork;
 	int				r_fork;
 	struct s_status	*status;
-	//pthread_mutex_t	m_mutex;
-	//pthread_mutex_t	m_eat;
-	sem_t			*m_mutex;
-	sem_t			*m_eat;
+	//sem_t			*m_mutex;
+	//sem_t			*m_eat;
+	pthread_mutex_t	m_mutex;
+	pthread_mutex_t	m_eat;
 }					t_philosophers;
 
 //	check_time is check whether philosopher failed to eat food in time or not.
@@ -76,19 +76,17 @@ typedef struct		s_status
 {
 	int				num_philo;
 	long long		must_eat;
-	long long		num_can_eat;
 	long long		start_time;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	t_philosophers	*philo;
-	//pthread_mutex_t	m_message;
-	//pthread_mutex_t	m_dead;
-	//pthread_mutex_t	*m_fork;
-	sem_t			*sem_num_can_eat;
-	sem_t			*m_message;
-	sem_t			*m_dead;
-	sem_t			**m_fork;
+	//sem_t			*m_message;
+	//sem_t			*m_dead;
+	//sem_t			**m_fork;
+	pthread_mutex_t	m_message;
+	pthread_mutex_t	m_dead;
+	pthread_mutex_t	*m_fork;
 }					t_status;
 
 void				*check_food_count(void *temp_status);
@@ -100,8 +98,6 @@ void				free_status(t_status *status);
 void				eat(t_philosophers *philo);
 void				grab_fork (t_philosophers *philo);
 void				down_forks (t_philosophers *philo);
-void				get_token(t_philosophers *philo);
-void				return_token(t_philosophers *philo);
 
 void				error_check(char **av);
 void				init_mutex(t_status *status);

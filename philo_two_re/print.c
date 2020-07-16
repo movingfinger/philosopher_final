@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 17:39:41 by sako              #+#    #+#             */
-/*   Updated: 2020/07/14 22:38:44 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/16 19:09:41 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	print_status(t_philosophers *philo, int stat)
 {
 	static int finish = 0;
 
-	sem_wait(philo->status->m_message);
+	//sem_wait(philo->status->m_message);
+	pthread_mutex_lock(&philo->status->m_message);
 	if (finish == 0)
 	{
 		printf("%lld ", timer() - philo->status->start_time);
@@ -63,5 +64,6 @@ void	print_status(t_philosophers *philo, int stat)
 				break;
 		}
 	}
-	sem_post(philo->status->m_message);
+	//sem_post(philo->status->m_message);
+	pthread_mutex_unlock(&philo->status->m_message);
 }
