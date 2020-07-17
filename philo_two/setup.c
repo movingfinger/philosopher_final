@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/12 12:27:20 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 15:41:50 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void init_semaphore(t_status *status)
 		ft_print_error("Fail to make semaphore for print");
 	if (!(status->sem_dead = ft_sem_open("SEM_DEAD", 0)))
 		ft_print_error("Fail to make semaphore for dead count");
-	//if (!(status->sem_num_can_eat = ft_sem_open("SEM_NUM_CAN_EAT", 1)))
-	//	ft_print_error("Fail to make semaphore for num can eat count");
-	sem_init(status->sem_num_can_eat, 0, status->num_can_eat);
+	if (!(status->pickup = ft_sem_open("SEM_PICKUP", 1)))
+		ft_print_error("Fail to make semaphore for fork pickup count");
+	if (!(status->sem_num_can_eat = ft_sem_open("SEM_NUM_CAN_EAT", 1)))
+		ft_print_error("Fail to make semaphore for num can eat count");
 }
 
 int init_philo(t_status *status)
@@ -75,6 +76,7 @@ void set_param(int ac, char **av, t_status *status)
 	status->num_can_eat = status->num_philo - 1;
 	status->sem_fork = NULL;
 	status->philo = NULL;
+	status->pickup = NULL;
 	if (ac > 6 || ac < 5)
 		ft_print_error(ERR_ARG);
 	else if(ac == 5)

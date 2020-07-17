@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/10 11:43:22 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 15:47:20 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct		s_status
 	sem_t			*sem_message;
 	sem_t			*sem_dead;
 	sem_t			*sem_fork;
+	sem_t			*pickup;
 }					t_status;
 
 void				*check_count(void *temp_status);
@@ -83,7 +84,6 @@ void				eat(t_philosophers *philo);
 void				grab_fork (t_philosophers *philo);
 void				down_forks (t_philosophers *philo);
 void				get_token(t_philosophers *philo);
-void				return_token(t_philosophers *philo);
 
 void				error_check(char **av);
 void				init_semaphore(t_status *status);

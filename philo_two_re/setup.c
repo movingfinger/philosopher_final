@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/16 19:06:04 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/16 20:24:14 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_semaphore(t_status *status)
 	//sem_wait(status->m_dead);
 	pthread_mutex_init(&status->m_message, NULL);
 	pthread_mutex_init(&status->m_dead, NULL);
+	pthread_mutex_init(&status->pickup, NULL);
 	pthread_mutex_lock(&status->m_dead);
 	//if (!(status->m_fork =
 	//	(sem_t **)malloc(sizeof(sem_t *) * status->num_philo)))

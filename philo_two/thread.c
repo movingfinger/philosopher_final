@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/15 00:22:04 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 15:47:08 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static void	*check_philosopher(void *t_philo)
 	{
 		if (sem_wait(philo->sem_mutex) != 0)
 			return ((void*)0);
-		time = timer();
-		//time = ms_timer();
+		//time = timer();
+		time = ms_timer();
 		if (!philo->is_eating && time > philo->check_time)
 		{
 			if (print_status(philo, ST_DIE))
@@ -62,21 +62,21 @@ static void	*philosopher (void *t_philo)
 	pthread_t		t_id;
 
 	philo = (t_philosophers *)t_philo;
-	philo->eat_time = timer();
-	//philo->eat_time = ms_timer();
+	//philo->eat_time = timer();
+	philo->eat_time = ms_timer();
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
 	if (pthread_create(&t_id, NULL, check_philosopher, t_philo) != 0)
 		ft_print_error("Failed to create check philosopher thread!");
 	pthread_detach(t_id);
 	while (1)
 	{
-		get_token(philo);
+		sem_wait(philo->status->pickup);
 		grab_fork(philo);
+		sem_post(philo->status->pickup);
 		eat(philo);
 		down_forks(philo);
 		if (print_status(philo, ST_THINK))
 			return ((void *)0);
-		return_token(philo);
 	}
 	return ((void *)0);
 }
@@ -87,14 +87,14 @@ void	do_philosopher(t_status *status)
 	pthread_t	t_id;
 	void		*philo;
 
-	status->start_time = timer();
-	//status->start_time = ms_timer();
 	if (status->must_eat > 0)
 	{
 		if (pthread_create(&t_id, NULL, &check_count, (void *)status) != 0)
 			ft_print_error("Failed to make food count thread!");
 		pthread_detach(t_id);
 	}
+	//status->start_time = timer();
+	status->start_time = ms_timer();
 	for (i = 0; i < status->num_philo; i++)
 	{
 		philo = (void *)(&status->philo[i]);
@@ -114,6 +114,7 @@ void	free_status(t_status *status)
 	sem_unlink("SEM_FORK");
 	sem_unlink("SEM_MESSAGE");
 	sem_unlink("SEM_DEAD");
+	sem_unlink("SEM_PICKUP");
 	sem_unlink("SEM_NUM_CAN_EAT");
 	if (status->philo)
 	{

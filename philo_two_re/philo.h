@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/16 19:09:01 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/16 20:23:56 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct		s_status
 	pthread_mutex_t	m_message;
 	pthread_mutex_t	m_dead;
 	pthread_mutex_t	*m_fork;
+	pthread_mutex_t	pickup;
 }					t_status;
 
 void				*check_food_count(void *temp_status);

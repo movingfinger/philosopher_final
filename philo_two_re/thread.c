@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/16 19:08:12 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/16 20:31:47 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	*philosopher (void *temp_philo)
 	pthread_detach(t_id);
 	while (1)
 	{
+		//pthread_mutex_lock(&philo->status->pickup);
 		grab_fork(philo);
+		//pthread_mutex_unlock(&philo->status->pickup);
 		eat(philo);
 		down_forks(philo);
 		print_status(philo, ST_THINK);
@@ -137,4 +139,5 @@ void	free_status(t_status *status)
 	//	free(c_sem);
 	pthread_mutex_destroy(&status->m_message);
 	pthread_mutex_destroy(&status->m_dead);
+	pthread_mutex_destroy(&status->pickup);
 }
