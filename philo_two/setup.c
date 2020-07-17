@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 15:41:50 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:06:45 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void init_semaphore(t_status *status)
 		ft_print_error("Fail to make semaphore for dead count");
 	if (!(status->pickup = ft_sem_open("SEM_PICKUP", 1)))
 		ft_print_error("Fail to make semaphore for fork pickup count");
-	if (!(status->sem_num_can_eat = ft_sem_open("SEM_NUM_CAN_EAT", 1)))
-		ft_print_error("Fail to make semaphore for num can eat count");
 }
 
 int init_philo(t_status *status)
@@ -73,7 +71,6 @@ void set_param(int ac, char **av, t_status *status)
 	status->time_to_die = ft_atol(av[2]);
 	status->time_to_eat = ft_atol(av[3]);
 	status->time_to_sleep = ft_atol(av[4]);
-	status->num_can_eat = status->num_philo - 1;
 	status->sem_fork = NULL;
 	status->philo = NULL;
 	status->pickup = NULL;

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 15:47:20 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:07:08 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,11 @@ typedef struct		s_status
 {
 	int				num_philo;
 	long long		must_eat;
-	long long		num_can_eat;
 	long long		start_time;
 	long long		time_to_die;
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	t_philosophers	*philo;
-	sem_t			*sem_num_can_eat;
 	sem_t			*sem_message;
 	sem_t			*sem_dead;
 	sem_t			*sem_fork;
@@ -83,7 +81,6 @@ void				free_status(t_status *status);
 void				eat(t_philosophers *philo);
 void				grab_fork (t_philosophers *philo);
 void				down_forks (t_philosophers *philo);
-void				get_token(t_philosophers *philo);
 
 void				error_check(char **av);
 void				init_semaphore(t_status *status);
@@ -103,7 +100,5 @@ unsigned int		ft_nbrlen(long long num, int base);
 char				*ft_strnew(size_t size);
 char				*ft_ltoa_base(long long nbr, int base);
 long long			timer(void);
-long long			ms_timer(void);
-void				ft_usleep(int time);
 
 #endif

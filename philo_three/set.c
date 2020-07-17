@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/08 20:34:03 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:44:09 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int init_semaphore(void)
 	sem_unlink("SEM_PRINT");
 	sem_unlink("SEM_DEAD");
 	sem_unlink("SEM_DEAD_REPORT");
+	sem_unlink("SEM_PICKUP");
 	if (!(sem_fork = ft_sem_open("SEM_FORK", num_philo)))
 		ft_print_error("Fail to make semaphore for forks");
 	if (!(sem_print = ft_sem_open("SEM_PRINT", 1)))
@@ -103,7 +104,9 @@ int init_semaphore(void)
 	if (!(sem_dead = ft_sem_open("SEM_DEAD", 0)))
 		ft_print_error("Fail to make semaphore for dead count");
 	if (!(sem_dead_report = ft_sem_open("SEM_DEAD_REPORT", 1)))
-		ft_print_error("Fail to make semaphore for report dead");	
+		ft_print_error("Fail to make semaphore for report dead");
+	if (!(sem_pickup = ft_sem_open("SEM_PICKUP", 1)))
+		ft_print_error("Fail to make semaphore for pickup");
 	return (0);
 }
 
@@ -115,6 +118,7 @@ int clear_philosopher(t_philosophers *philo)
 	sem_unlink("SEM_FORK");
 	sem_unlink("SEM_PRINT");
 	sem_unlink("SEM_DEAD");
+	sem_unlink("SEM_PICKUP");
 	sem_unlink("SEM_DEAD_REPORT");
 	if (philo)
 	{

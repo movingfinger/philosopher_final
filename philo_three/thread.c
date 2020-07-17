@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/06/26 18:11:05 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:43:47 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	drop_forks(t_philosophers *philo)
 
 void	eat(t_philosophers *philo)
 {
-	sem_wait(philo->sem);
+	//sem_wait(philo->sem);
 	philo->state = 0;
 	philo->last_time = timer();
 	philo->limit = philo->last_time + die_seconds;
@@ -38,6 +38,6 @@ void	eat(t_philosophers *philo)
 	usleep(eat_seconds * 1000);
 	philo->eat_count++;
 	philo->state = 1;
-	sem_post(philo->sem);
+	//sem_post(philo->sem);
 	sem_post(philo->food_count);
 }

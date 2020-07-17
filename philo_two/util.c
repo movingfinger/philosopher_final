@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:59:28 by sako              #+#    #+#             */
-/*   Updated: 2020/07/09 22:14:53 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:04:02 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,4 @@ long long		timer(void)
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * (long long)1000 + time.tv_usec / 1000);
-}
-
-long long		ms_timer(void)
-{
-	struct timespec	time;
-
-	clock_gettime(CLOCK_REALTIME , &time);
-	return (time.tv_sec * (long long)1000 + time.tv_nsec / 1000000);
-}
-
-void			ft_usleep(int time)
-{
-	//struct timespec sleepValue = {0};
-	struct timespec sleepValue = {0};
-
-	sleepValue.tv_nsec = 1000000 * time;
-	nanosleep(&sleepValue, NULL);
 }

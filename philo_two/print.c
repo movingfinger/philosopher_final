@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 17:39:41 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 15:44:56 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:31:29 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	print_status(t_philosophers *philo, int stat)
 	ret = 1;
 	if (finish == 0)
 	{
-		//printf("%lld\t", timer() - philo->status->start_time);
-		printf("%lld\t", ms_timer() - philo->status->start_time);
+		printf("%lld ms - Philosopher ", timer() - philo->status->start_time);
 		if (stat != ST_DONE)
 			printf("%d", philo->id + 1);
 		if (stat >= ST_DIE)

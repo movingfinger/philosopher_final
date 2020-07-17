@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/06/26 18:11:54 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:43:44 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				check_food;
 int				sem_val;
 sem_t			*sem_fork;
 sem_t			*sem_print;
+sem_t			*sem_pickup;
 sem_t			*sem_dead;
 sem_t			*sem_dead_report;
 

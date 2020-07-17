@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:57 by sako              #+#    #+#             */
-/*   Updated: 2020/06/17 22:32:32 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:44:56 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ int do_process(t_philosophers *philo)
 	pthread_detach(tid);
 	while (1)
 	{
+		sem_wait(sem_pickup);
 		grab_forks(philo);
+		sem_post(sem_pickup);
 		eat(philo);
 		drop_forks(philo);
 		print_message(philo, 3);

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 17:39:41 by sako              #+#    #+#             */
-/*   Updated: 2020/06/25 22:46:18 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/17 23:31:39 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_status(t_philosophers *philo, int stat)
 	pthread_mutex_lock(&philo->status->m_message);
 	if (finish == 0)
 	{
-		printf("%lld ", timer() - philo->status->start_time);
+		printf("%lld ms - Philosopher ", timer() - philo->status->start_time);
 		printf("%d", philo->id + 1);
 		if (stat == ST_DIE || stat == ST_DONE)
 			finish = 1;
