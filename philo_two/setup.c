@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 23:06:45 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 18:09:29 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void init_semaphore(t_status *status)
 int init_philo(t_status *status)
 {
 	int		i;
-	char	*c_sem;
+	char	*c_sem1;
+	char	*c_sem2;
 
 	for (i = 0; i < status->num_philo; i++)
 	{
@@ -53,15 +54,15 @@ int init_philo(t_status *status)
 		status->philo[i].r_fork = (i + 1) % status->num_philo;
 		status->philo[i].eat_count = 0;
 		status->philo[i].status = status;
-		c_sem = make_semaphore("SEM_PHILO", i);
-		if (!(status->philo[i].sem_mutex = ft_sem_open(c_sem, 1)))
+		c_sem1 = make_semaphore("SEM_PHILO", i);
+		if (!(status->philo[i].sem_mutex = ft_sem_open(c_sem1, 1)))
 			ft_print_error("Failed to generate philo semaphore!");
-		c_sem = make_semaphore("SEM_FOOD", i);
-		if (!(status->philo[i].sem_eat = ft_sem_open(c_sem, 1)))
+		c_sem2 = make_semaphore("SEM_FOOD", i);
+		if (!(status->philo[i].sem_eat = ft_sem_open(c_sem2, 1)))
 			ft_print_error("Failed to generate food limit semaphore!");
+		free(c_sem1);
+		free(c_sem2);
 	}
-	if (c_sem)
-		free(c_sem);
 	return (0);
 }
 

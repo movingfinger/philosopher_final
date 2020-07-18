@@ -6,11 +6,11 @@
 #    By: sako <sako@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/17 21:58:49 by sako              #+#    #+#              #
-#    Updated: 2020/06/26 10:03:45 by sako             ###   ########.fr        #
+#    Updated: 2020/07/18 11:10:37 by sako             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c print.c setup.c thread.c diner.c util.c
+SRCS		= main.c print.c setup.c thread.c diner.c util.c string.c
 OBJS		= $(SRCS:.c=.o)
 
 GCC			= gcc

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/06/30 13:09:41 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 16:45:41 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*check_food_count(void *temp_status)
 		for (int j = 0; j < status->num_philo; j++)
 			pthread_mutex_lock(&status->philo[j].m_eat);
 	}
-	print_status(&status->philo[0], ST_DONE);
+	print_message(&status->philo[0], ST_DONE);
 	pthread_mutex_unlock(&status->m_dead);
 	return ((void *)0);
 }
@@ -36,11 +36,10 @@ void	*check_philosopher(void *temp_philo)
 	while (1)
 	{
 		time = timer();
-		//time = timer() - philo->status->start_time;
 		pthread_mutex_lock(&philo->m_mutex);
 		if (!philo->is_eating && time > philo->check_time)
 		{
-			print_status(philo, ST_DIE);
+			print_message(philo, ST_DIE);
 			pthread_mutex_unlock(&philo->m_mutex);
 			pthread_mutex_unlock(&philo->status->m_dead);
 			return ((void *)0);
@@ -56,7 +55,6 @@ void	*philosopher (void *temp_philo)
 	pthread_t		t_id;
 
 	philo = (t_philosophers *)temp_philo;
-	//philo->eat_time = timer() - philo->status->start_time;
 	philo->eat_time = timer();
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
 	if (pthread_create(&t_id, NULL, check_philosopher, temp_philo) != 0)
@@ -67,7 +65,7 @@ void	*philosopher (void *temp_philo)
 		grab_fork(philo);
 		eat(philo);
 		down_forks(philo);
-		print_status(philo, ST_THINK);
+		print_message(philo, ST_THINK);
 	}
 	return ((void *)0);
 }

@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 23:07:08 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 17:42:25 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,19 @@ sem_t				*ft_sem_open(const char *str, int num);
 
 void				ft_print_error(const char *str);
 void				print_input(t_status *status);
-int					print_status(t_philosophers *philo, int stat);
+void				print_status(int stat);
+void				print_message(t_philosophers *philo, int stat);
 char				*make_semaphore(const char *str, int i);
 
 long long			ft_atol (const char *str);
+void				ft_putstr(const char *str);
+void				ft_putendl(const char *str);
+long long			timer(void);
+
 size_t				ft_strlen(const char *str);
 size_t				ft_strlcat (char *dst, const char *src, size_t dstsize);
 unsigned int		ft_nbrlen(long long num, int base);
 char				*ft_strnew(size_t size);
 char				*ft_ltoa_base(long long nbr, int base);
-long long			timer(void);
 
 #endif

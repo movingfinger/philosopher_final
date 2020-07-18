@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set.c                                              :+:      :+:    :+:   */
+/*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 18:18:01 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 23:44:09 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 18:21:19 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,7 @@ void set_param(char **av, int ac)
 	die_seconds = ft_atol(av[2]);
 	eat_seconds = ft_atol(av[3]);
 	sleep_seconds = ft_atol(av[4]);
-	
-	printf("Number of philosopher is %lld\n", num_philo);
-	printf("Die time is %lld ms\n", die_seconds);
-	printf("Eat time is %lld ms\n", eat_seconds);
-	printf("Sleep time is %lld ms\n", sleep_seconds);
-	if (food_limit == -1)
-		printf("food is unlimited\n");
-	else
-		printf("food limit is %lld\n", food_limit);
+	print_input();
 }
 
 sem_t	*ft_sem_open(const char *str, int num)
@@ -69,7 +61,8 @@ sem_t	*ft_sem_open(const char *str, int num)
 int init_philo(t_philosophers *philo)
 {
 	int		i;
-	char	*c_sem;
+	char	*c_sem1;
+	char	*c_sem2;
 
 	i = 0;
 	while (i < num_philo)
@@ -78,14 +71,15 @@ int init_philo(t_philosophers *philo)
 		philo[i].pos = i;
 		philo[i].lfork = i;
 		philo[i].rfork = (i + 1) % num_philo;
-		c_sem = make_semaphore("SEM_PHILO", i);
-		if (!(philo[i].sem = ft_sem_open(c_sem, 1)))
+		c_sem1 = make_semaphore("SEM_PHILO", i);
+		if (!(philo[i].sem = ft_sem_open(c_sem1, 1)))
 			ft_print_error("Failed to generate philo semaphore!");
-		c_sem = make_semaphore("SEM_FOOD", i);
-		if (!(philo[i].food_count = ft_sem_open(c_sem, 0)))
+		c_sem2 = make_semaphore("SEM_FOOD", i);
+		if (!(philo[i].food_count = ft_sem_open(c_sem2, 0)))
 			ft_print_error("Failed to generate food limit semaphore!");
 		i++;
-		free(c_sem);
+		free(c_sem1);
+		free(c_sem2);
 	}
 	return (0);
 }
@@ -112,7 +106,9 @@ int init_semaphore(void)
 
 int clear_philosopher(t_philosophers *philo)
 {
-	int	i;
+	int		i;
+	char	*c_sem1;
+	char	*c_sem2;
 
 	i = 0;
 	sem_unlink("SEM_FORK");
@@ -125,9 +121,13 @@ int clear_philosopher(t_philosophers *philo)
 		i = 0;
 		while (i < num_philo)
 		{
-			make_semaphore("SEM_PHILO", i);
-			make_semaphore("SEM_FOOD", i);
+			c_sem1 = make_semaphore("SEM_PHILO", i);
+			sem_unlink(c_sem1);
+			c_sem2 = make_semaphore("SEM_FOOD", i);
+			sem_unlink(c_sem2);
 			i++;
+			free(c_sem1);
+			free(c_sem2);
 		}
 		free(philo);
 	}

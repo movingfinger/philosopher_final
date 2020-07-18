@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:59:28 by sako              #+#    #+#             */
-/*   Updated: 2020/06/26 10:01:56 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 11:11:08 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ long long ft_atol (const char *str)
 	if (str[i] != '\0')
 		return (-1);
 	return (res);
+}
+
+void			ft_putstr(const char *str)
+{
+	for (int i = 0; str[i]; i++)
+		write(1, &str[i], 1);
+}
+void			ft_putendl(const char *str)
+{
+	ft_putstr(str);
+	ft_putstr("\n");
 }
 
 long long timer(void)

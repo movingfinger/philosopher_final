@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 10:58:10 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 23:15:05 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 18:07:47 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	*check_count(void *temp_status)
 		for (int j = 0; j < status->num_philo; j++)
 			if (sem_wait(status->philo[j].sem_eat))
 				return ((void *)0);
-	if (print_status(&status->philo[0], ST_DONE))
-		return ((void *)0);
+	print_message(&status->philo[0], ST_DONE);
+
 	if (sem_post(status->sem_dead))
 		return ((void *)0);
 	return ((void *)0);
@@ -41,8 +41,7 @@ static void	*check_philosopher(void *t_philo)
 		time = timer();
 		if (!philo->is_eating && time > philo->check_time)
 		{
-			if (print_status(philo, ST_DIE))
-				return ((void *)0);
+			print_message(philo, ST_DIE);
 			if (sem_post(philo->sem_mutex))
 				return ((void*)0);
 			if (sem_post(philo->status->sem_dead))
@@ -61,7 +60,6 @@ static void	*philosopher (void *t_philo)
 	pthread_t		t_id;
 
 	philo = (t_philosophers *)t_philo;
-	//philo->status->start_time = timer();
 	philo->eat_time = timer();
 	philo->check_time = philo->eat_time + philo->status->time_to_die;
 	if (pthread_create(&t_id, NULL, check_philosopher, t_philo) != 0)
@@ -74,8 +72,7 @@ static void	*philosopher (void *t_philo)
 		sem_post(philo->status->pickup);
 		eat(philo);
 		down_forks(philo);
-		if (print_status(philo, ST_THINK))
-			return ((void *)0);
+		print_message(philo, ST_THINK);
 	}
 	return ((void *)0);
 }
@@ -106,9 +103,9 @@ void	do_philosopher(t_status *status)
 
 void	free_status(t_status *status)
 {
-	char *c_sem;
+	char *c_sem1;
+	char *c_sem2;
 
-	c_sem = NULL;
 	sem_unlink("SEM_FORK");
 	sem_unlink("SEM_MESSAGE");
 	sem_unlink("SEM_DEAD");
@@ -117,13 +114,13 @@ void	free_status(t_status *status)
 	{
 		for (int i = 0; i < status->num_philo; i++)
 		{
-			c_sem = make_semaphore("SEM_PHILO", i);
-			sem_unlink(c_sem);
-			c_sem = make_semaphore("SEM_FOOD", i);
-			sem_unlink(c_sem);
+			c_sem1 = make_semaphore("SEM_PHILO", i);
+			sem_unlink(c_sem1);
+			c_sem2 = make_semaphore("SEM_FOOD", i);
+			sem_unlink(c_sem2);
+			free(c_sem1);
+			free(c_sem2);
 		}
 		free(status->philo);
 	}
-	if (c_sem)
-		free(c_sem);
 }

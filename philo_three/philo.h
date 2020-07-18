@@ -6,7 +6,7 @@
 /*   By: sako <sako@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 14:39:49 by sako              #+#    #+#             */
-/*   Updated: 2020/07/17 23:43:44 by sako             ###   ########.fr       */
+/*   Updated: 2020/07/18 18:21:36 by sako             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,24 +72,27 @@ typedef struct	s_philosophers
 	sem_t		*food_count;
 }				t_philosophers;
 
-void			grab_fork (t_philosophers *philo, int fork, int side);
-void			down_forks (int, int);
+void			*check_count(void *t_philo);
+int				check_thread(t_philosophers *philo);
+void			*check_process(void *t_philo);
+int				do_process(t_philosophers *philo);
+int				begin_process(t_philosophers *philo);
 
-void			Spawn(t_philosophers *philo);
-
+long long		ft_atol (const char *str);
+void			set_param(char **av, int ac);
+void			ft_putstr(const char *str);
+void			ft_putendl(const char *str);
 long long		timer(void);
 
-void			ft_print_error(const char *str);
-long long		ft_atol (const char *str);
 size_t			ft_strlen(const char *str);
 size_t			ft_strlcat (char *dst, const char *src, size_t dstsize);
 unsigned int	ft_nbrlen(long long nbr, int base);
 char			*ft_strnew(size_t size);
 char			*ft_ltoa_base(long long nbr, int base);
-void			set_param(char **av, int ac);
 
-void			print_message(t_philosophers *philo, int num);
+void			ft_print_error(const char *str);
 void			get_message(int num);
+void			print_input(void);
 void			print_message(t_philosophers *philo, int num);
 char			*make_semaphore(const char *str, int i);
 
